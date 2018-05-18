@@ -1,1 +1,1 @@
-from database.create_db import create_database
+from Database.Database import Database as DB

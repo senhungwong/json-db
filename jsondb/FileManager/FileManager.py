@@ -61,7 +61,7 @@ class FileManager(object):
         name = name.rstrip('.json') + '.json'
 
         # validate name
-        if name.find('/') == -1:
+        if name.find('/') != -1:
             return False, "File name %s cannot contain '/'." % name
 
         # set path to just file name when path is not defined
@@ -70,7 +70,7 @@ class FileManager(object):
 
         # check path existence and build file path
         elif self.exists(path):
-            path = path + '/' + name
+            path = path.strip('/') + '/' + name
 
         # invalid path is not allowed
         else:
