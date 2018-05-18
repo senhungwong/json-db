@@ -58,7 +58,7 @@ class FileManager(object):
             content = {}
 
         # build name with .json extension
-        name = name.rstrip('.json') + '.json'
+        name = os.path.splitext(name)[0] + '.json'
 
         # validate name
         if name.find('/') != -1:
