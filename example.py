@@ -5,3 +5,6 @@ jsondb = DB('example_db', 'example')
 
 # create database called example_db under example folder
 jsondb.init()
+
+# create type
+jsondb.create_type('user')
