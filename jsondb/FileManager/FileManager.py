@@ -62,7 +62,7 @@ class FileManager(object):
 
         # validate name
         if name.find('/') == -1:
-            return False, "File name cannot contain '/'."
+            return False, "File name %s cannot contain '/'." % name
 
         # set path to just file name when path is not defined
         if path is None:
@@ -74,18 +74,18 @@ class FileManager(object):
 
         # invalid path is not allowed
         else:
-            return False, "Path does not exists."
+            return False, "Path %s does not exists." % path
 
         # check if file exists
         if self.exists(path):
-            return False, "File already exists"
+            return False, "File %s already exists." % path
 
         # create .json file
         with open(self.storage + '/' + path, "w") as f:
             # write content
             f.write(json.dumps(content, ensure_ascii=False, indent=4, sort_keys=True))
 
-        return True, "File successfully created."
+        return True, "File %s successfully created." % path
 
     def create_directory(self, directory):
         """Create a directory under storage folder.
