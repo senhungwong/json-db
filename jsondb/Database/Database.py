@@ -30,11 +30,12 @@ class Database(object):
 
         The structure is like:
 
-        project_root/
-        └── storage/
-            └── database_name/
-                ├── data/
-                └── schema/
+        storage/
+        └── database/
+            ├── data/
+            ├── schema/
+            │   └── identifiers.json
+            └── indices/
 
         Returns:
             None
@@ -51,6 +52,9 @@ class Database(object):
         # create schema folder
         self.file_manager.create_directory(self.database_name + '/schema')
 
+        # create schema/types.json
+        success, message = self.file_manager.create_json_file('identifiers', self.database_name + '/schema', {})
+
         print "Database %s created successfully." % self.database_name
 
     def create_type(self, type_name, if_not_exists=True, pluralize=True):
@@ -61,11 +65,20 @@ class Database(object):
         and schema/identifier.json files in the database. The identifier is the unique key for each
         type which is used in handling type name changing.
 
-        database_name/
-        ├── data/
-        │   └── types.json
-        └── schema/
-            └── identifier.json
+        storage/
+        └── database/
+            ├── data/
+            │   └── types/
+            │       └── primary.json
+            ├── schema/
+            │   ├── identifiers.json
+            │   └── types-identifier/
+            │       ├── information.json
+            │       ├── types.json
+            │       └── relations.json
+            └── indices/
+                └── types-identifier/
+                    └── attribute.json
 
         Args:
             type_name     (str) : The type name. Will be set to plural and lowercase if pluralize is True.
@@ -82,27 +95,48 @@ class Database(object):
         if pluralize:
             _, type_name = get_singular_plural(type_name.lower())
 
-        # create data/type.json
-        success, message = self.file_manager.create_json_file(
-            type_name, self.database_name + '/data', {
-                "data": {},
-                "identifier": str(identifier)
-            }
-        )
+        # create database/data/types/ folder
+        success = self.file_manager.create_directory(self.database_name + '/data/' + type_name)
 
         if not success:
-            if if_not_exists:
-                return
-            exit(message)
+            exit('Unable to create %s folder' % self.database_name + '/data/' + type_name)
 
-        # create schema/identifier.json
+        # create database/schema/identifier/ folder
+        success = self.file_manager.create_directory(self.database_name + '/schema/' + identifier)
+
+        if not success:
+            exit('Unable to create %s folder' % self.database_name + '/schema/' + identifier)
+
+        # create database/schema/identifier/information.json
         success, message = self.file_manager.create_json_file(
-            str(identifier), self.database_name + '/schema', {
+            'information', self.database_name + '/schema/' + identifier, {
                 "type": type_name
             }
         )
 
         if not success:
             exit(message)
+
+        # create database/schema/identifier/types.json
+        success, message = self.file_manager.create_json_file(
+            type_name, self.database_name + '/schema/' + identifier, {}
+        )
+
+        if not success:
+            exit(message)
+
+        # create database/schema/identifier/relations.json
+        success, message = self.file_manager.create_json_file(
+            'relations', self.database_name + '/schema/' + identifier, {}
+        )
+
+        if not success:
+            exit(message)
+
+        # update database/schema/types.json
+        path = self.database_name + '/schema/identifiers.json'
+        content = self.file_manager.read(path)
+        content[type_name] = identifier
+        self.file_manager.write(path, content)
 
         print "Type %s created successfully." % type_name

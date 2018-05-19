@@ -4,7 +4,12 @@ from pattern.en import pluralize, singularize
 
 
 def generate_identifier():
-    return uuid.uuid4()
+    """Generate an unique identifier.
+
+    Returns:
+        str: An unique identifier.
+    """
+    return str(uuid.uuid4())
 
 
 def get_singular_plural(noun):
