@@ -26,7 +26,8 @@ class Model(object):
 
         # create new object if primary is not given
         if primary is None:
-            self.__dict__ = {}
+            self.data = {}
+            self.__primary__ = None
             return
 
         # model should have basic storing information
@@ -40,14 +41,31 @@ class Model(object):
         if not self.file_manager.exists(path):
             exit('Path %s is not found.' % path)
 
-        # set attributes from .json file
-        self.__dict__ = self.file_manager.read(path)
-
         # set current object primary
-        self.primary = primary
+        self.__primary__ = primary
+
+        # set attributes from .json file
+        self.data = self.file_manager.read(path)
 
     def save(self):
-        pass
+        """Save current object to .json file.
+
+        If the row is not found in the folder, create one; otherwise update it.
+        Also update schema rows.
+
+        """
+
+        # get path
+        path = self.database + '/data/' + self.type + '/'
+
+        # if row is not found
+        if not self.file_manager.exists(path + self.__primary__ + '.json'):
+            # create .json
+            self.file_manager.create_json_file(self.__primary__, path, self.data)
+
+        # if row is found
+        else:
+            self.file_manager.write(path + self.__primary__ + '.json', self.data)
 
     def add_relation(self):
         pass
