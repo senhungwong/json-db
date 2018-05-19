@@ -1,9 +1,9 @@
 from jsondb import DB, Model
 
-# create a database object having database name 'example_db' under example storage
-jsondb = DB('example_db', 'example')
+# create a database object
+jsondb = DB()
 
-# create database called example_db under example folder
+# create database under storage folder
 jsondb.init()
 
 # create type
@@ -18,8 +18,6 @@ class User(Model):
         email (str): The email address of user.
     """
 
-    storage = 'example'
-    database = 'example_db'
     type = 'users'
 
 

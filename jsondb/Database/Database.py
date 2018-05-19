@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from ..FileManager.FileManager import FileManager
 from ..Services.services import generate_identifier, get_singular_plural
+from .. import CONFIG
 
 
 class Database(object):
@@ -11,7 +12,7 @@ class Database(object):
         file_manager  (FileManager): The file manager for current object.
     """
 
-    def __init__(self, database_name, storage='jsondb'):
+    def __init__(self, database_name=CONFIG.get('jsondb', 'database'), storage=CONFIG.get('jsondb', 'storage')):
         """Create a jsondb database.
 
         Args:

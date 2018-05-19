@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os
 import json
+from .. import CONFIG
 
 
 class FileManager(object):
@@ -10,7 +11,7 @@ class FileManager(object):
         storage (str): The name of the storage folder for jsondb.
     """
 
-    def __init__(self, storage='jsondb'):
+    def __init__(self, storage=CONFIG.get('jsondb', 'storage')):
         """Init FileManager with storage folder.
 
         Args:

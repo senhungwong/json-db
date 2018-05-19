@@ -1,11 +1,12 @@
 # -*- coding: UTF-8 -*-
 from ..FileManager.FileManager import FileManager
+from .. import CONFIG
 
 
 class Model(object):
-    storage = 'jsondb'
+    storage = CONFIG.get('jsondb', 'storage')
 
-    database = None
+    database = CONFIG.get('jsondb', 'database')
 
     type = None
 
