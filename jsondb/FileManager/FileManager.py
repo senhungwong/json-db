@@ -103,3 +103,45 @@ class FileManager(object):
             return True
 
         return False
+
+    def read(self, path):
+        """Read a .json file and parse it to dict.
+
+        Args:
+            path (str): The path to the file.
+
+        Returns:
+            dict: A dict that contains the JSON information.
+        """
+
+        # check if file exists
+        if not self.exists(path):
+            return None
+
+        # read file
+        with open(self.storage + '/' + path, 'r') as f:
+            content = f.read()
+
+        # convert to dict
+        return json.loads(content)
+
+    def write(self, path, content):
+        """Write a .json file with content.
+
+        Args:
+            path    (str) : The path to the file.
+            content (dict): The content that needs to be write to the file.
+
+        Returns:
+            bool: True if file is successfully written, otherwise False.
+        """
+
+        # check if file exists
+        if not self.exists(path):
+            return False
+
+        # write file
+        with open(self.storage + '/' + path, 'w') as f:
+            f.write(json.dumps(content, ensure_ascii=False, indent=4, sort_keys=True))
+
+        return True
