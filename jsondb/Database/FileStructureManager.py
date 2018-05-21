@@ -2,6 +2,7 @@
 import os
 import json
 from ..Services.config import Config
+from shutil import rmtree
 
 
 class FileStructureManager(object):
@@ -159,3 +160,17 @@ class FileStructureManager(object):
         # write file
         with open(path, 'w') as f:
             f.write(json.dumps(content, ensure_ascii=False, indent=4, sort_keys=True))
+
+    def remove(self, path, in_storage=True, ignore_errors=False):
+        """Remove a folder and its sub-folders and files.
+
+        Args:
+            path          (str) : The path to the folder.
+            in_storage    (bool): If the path is in storage.
+            ignore_errors (bool): If true, will remove the folder in force mode.
+        """
+
+        if in_storage:
+            path = self.storage + '/' + path
+
+        rmtree(path, ignore_errors=ignore_errors)

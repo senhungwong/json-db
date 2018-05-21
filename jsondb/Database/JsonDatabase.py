@@ -162,3 +162,15 @@ class JsonDatabase(object):
         """
 
         self.file_manager.create_json_file(name, self.database_name + '/' + path, content)
+
+    def delete(self, force=False):
+        """Delete current database.
+
+        Args:
+            force (bool): If true, will remove the folder in force mode.
+        """
+
+        self.file_manager.remove(
+            build_path([self.database_name]),
+            ignore_errors=force
+        )

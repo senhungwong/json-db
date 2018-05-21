@@ -3,6 +3,9 @@ from jsondb import DB, Model
 # create a database object
 jsondb = DB()
 
+# remove database if exist for testing
+jsondb.delete(force=True)
+
 # create database under storage folder
 jsondb.init()
 
