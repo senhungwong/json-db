@@ -4,10 +4,11 @@ from Type import Type
 
 class Model(object):
     __hidden__ = {
-        '__primary__',  # the primary key of the type
-        '__type__',     # the type of the model
-        '__hidden__',   # hidden its self
-        '__created__'   # if the data is created
+        '__primary__',    # the primary key of the type
+        '__type__',       # the type of the model
+        '__hidden__',     # hidden its self
+        '__created__',     # if the data is created
+        '__identifier__'  # the type identifier
     }
 
     __type__ = None
@@ -25,6 +26,7 @@ class Model(object):
 
         self.__primary__ = primary
         self.__type__ = Type(self.__type__)
+        self.__identifier__ = self.__type__.get_identifier()
 
         # create new object if primary is not given
         if primary is None:

@@ -57,3 +57,6 @@ class Type(object):
             ]),
             content
         )
+
+    def get_identifier(self):
+        return self.db.read(build_path(['schema'], 'identifiers.json'))[self.name]
