@@ -36,11 +36,9 @@ storage/
     │   ├── identifiers.json
     │   ├── types-1-identifier/
     │   │   ├── information.json
-    │   │   ├── types-1.json
     │   │   └── relations.json
     │   └── types-2-identifier/
     │       ├── information.json
-    │       ├── types-2.json
     │       └── relations.json
     └── indices/
         ├── types-1-identifier/

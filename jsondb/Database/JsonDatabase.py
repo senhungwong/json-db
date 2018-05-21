@@ -80,7 +80,6 @@ class JsonDatabase(object):
             │   ├── identifiers.json
             │   └── types-identifier/
             │       ├── information.json
-            │       ├── types.json
             │       └── relations.json
             └── indices/
                 └── types-identifier/
@@ -113,13 +112,9 @@ class JsonDatabase(object):
         # create database/schema/identifier/information.json
         self.file_manager.create_json_file(
             'information', schema_path, {
-                "type": type_name
+                "type": type_name,
+                "data": {}
             }
-        )
-
-        # create database/schema/identifier/types.json
-        self.file_manager.create_json_file(
-            type_name, schema_path, {}
         )
 
         # create database/schema/identifier/relations.json

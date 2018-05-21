@@ -7,7 +7,7 @@ class Model(object):
         '__primary__',    # the primary key of the type
         '__type__',       # the type of the model
         '__hidden__',     # hidden its self
-        '__created__',     # if the data is created
+        '__created__',    # if the data is created
         '__identifier__'  # the type identifier
     }
 
@@ -26,7 +26,7 @@ class Model(object):
 
         self.__primary__ = primary
         self.__type__ = Type(self.__type__)
-        self.__identifier__ = self.__type__.get_identifier()
+        self.__identifier__ = self.__type__.identifier
 
         # create new object if primary is not given
         if primary is None:
@@ -67,8 +67,18 @@ class Model(object):
         # create a new row in database
         if not self.__created__:
             self.__type__.create_data(self.__primary__, self.attributes())
+            self.__type__.insert_row(self.__primary__)
             self.__created__ = True
 
         # update existing row in database
         else:
             self.__type__.update_data(self.__primary__, self.attributes())
+
+    def info(self):
+        """Get current type information.
+
+        Returns:
+            dict: Current type information.
+        """
+
+        return self.__type__.get_info()

@@ -23,3 +23,5 @@ user.save()
 print user.attributes()
 user.email = 'something else'
 user.save()
+
+print user.info()
