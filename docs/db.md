@@ -21,9 +21,11 @@ jsondb = DB()
 ```
 ### Parameters
 
+```
 database_name (str): Set current instance to a specific database. Default 'database'
 storage       (str): The jsondb storage folder name for initializing FileManager. Default 'storage'
 section       (str): The section name of the configurations (the one wrapped in []). Default 'jsondb'
+```
 
 ## Create Database
 
