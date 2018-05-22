@@ -42,5 +42,8 @@ user.email = 'other@gmail.com'
 # Save user model to database (the row is been updated).
 user.save()
 
+# See changed attributes.
+print 'Changed attributes: ', user.attributes()
+
 # See all users' information.
 print 'User information: ', user.info()

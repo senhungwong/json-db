@@ -8,10 +8,10 @@ A lightweight NoSQL document database storage mechanism using JSON as the storin
 
 ## How To Use
 
-An example is included in [example.py](example.py)
+An example is included in [general-usage.py](general-usage.py)
 
 ```bash
-$ python example.py
+$ python general-usage.py
 ```
 
 ### Details

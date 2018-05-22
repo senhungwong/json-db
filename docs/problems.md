@@ -4,6 +4,7 @@
 
  - [Type name changing affecting relations](#type-name-changing-affecting-relations)
  - [Write overhead when table grows](#write-overhead-when-table-grows)
+ - [Multi thread supporting](#multi-thread-supporting)
 
 **Unsolved**
 
@@ -142,5 +143,69 @@ show all rows.
     "alex": null
 }
 ```
+
+</details>
+
+## Multi thread supporting
+
+<h3>Problem:</h3>
+
+When multiple users are using the same data, cannot guarantee the data in the object is the newest data.
+
+<details>
+
+<summary>Example</summary>
+
+```python
+# Define a class for 'users' mapping.
+class User(Model):
+    __type__ = 'users'  # set the type to 'users'
+
+
+# Create an user in thread 1.
+user_t1 = User()
+user_t1.__primary__ = 'alex'
+user_t1.age = 20
+user_t1.save()
+print "Thread 1 attributes: ", user_t1.attributes()
+
+# Get the user with name in thread 2.
+user_t2 = User('alex')
+
+# Update thread 1 user.
+user_t1.age = 21
+user_t1.save()
+print "Thread 1 updated attributes: ", user_t1.attributes()
+
+# Check thread 2 attributes.
+print "Thread 2 current attributes: ", user_t2.attributes()
+```
+
+</details>
+
+<h3>Solution:</h3>
+
+Provide a hashed value in files which allows caching and avoiding reading old data.
+
+<details>
+
+<summary>Example</summary>
+
+[Multi Thread](../multi-thread.py)
+
+```bash
+$ python multi-thread.py
+```
+
+```json
+{
+    "__hash__": "hashed-string-based-on-current-file",
+    "email": "email@email.com"
+}
+```
+
+When read, check `__hash__`. If it changed, re-fetch file.
+When write, re-calculate `__hash__`.
+All `.json` file requires a `__hash__` property.
 
 </details>

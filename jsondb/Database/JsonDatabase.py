@@ -175,3 +175,15 @@ class JsonDatabase(object):
             build_path([self.database_name]),
             ignore_errors=force
         )
+
+    def get_hash(self, path):
+        """Get the hash value.
+
+        Args:
+            path (str): The file path.
+
+        Returns:
+            str: The hash value.
+        """
+
+        return self.file_manager.get_hash(self.database_name + '/' + path)

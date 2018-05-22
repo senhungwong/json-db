@@ -174,3 +174,41 @@ class FileStructureManager(object):
             path = self.storage + '/' + path
 
         rmtree(path, ignore_errors=ignore_errors)
+
+    def get_hash(self, path, in_storage=True):
+        """Get the hash value of a .json file.
+
+        The function will check if the fast way gets the hash value. If not, read
+        the whole file and find the hash value. Keep attributes name starts in
+        lowercase will significantly improve the read speed.
+
+        Args:
+            path       (str) : The path to the folder.
+            in_storage (bool): If the path is in storage.
+
+        Returns:
+            str: The hash value.
+        """
+
+        if in_storage:
+            path = self.storage + '/' + path
+
+        # initialize hash
+        __hash__ = None
+
+        # open file
+        with open(path, 'r') as f:
+            for i, line in enumerate(f):
+                # get hash value in line 1
+                if i == 1:
+                    __hash__ = line.strip()[:-3]
+
+        # check if file has line 1
+        if not __hash__:
+            return None
+
+        # check if the line is hash
+        if __hash__[1:9] != '__hash__':
+            return self.read(path, in_storage=False)['__hash__']
+
+        return json.loads('{' + __hash__ + '}')['__hash__']

@@ -69,6 +69,18 @@ class Type(object):
 
         return self.db.read(build_path(['schema'], 'identifiers.json'))[self.name]
 
+    def get_hash(self, primary):
+        """Get the hash value.
+
+        Args:
+            primary (str): The hash value of the primary.
+
+        Returns:
+            str: The hash value.
+        """
+
+        return self.db.get_hash(build_path(['data', self.name], primary + '.json'))
+
     def get_info(self):
         """Get current type info.
 
