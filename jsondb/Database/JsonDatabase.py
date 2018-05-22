@@ -19,6 +19,7 @@ class JsonDatabase(object):
         Args:
             database_name (str): Set current instance to a specific database.
             storage       (str): The jsondb storage folder name for initializing FileManager.
+            section       (str): The section name of the configurations (the one wrapped in []).
         """
 
         self.database_name = database_name
@@ -63,7 +64,7 @@ class JsonDatabase(object):
 
         print "Database %s created successfully." % self.database_name
 
-    def create_type(self, type_name, if_not_exists=True, pluralize=True):
+    def has_type(self, type_name, if_not_exists=True, pluralize=True):
         """Create a type.
 
         The function will make the type name to plural and lowercase for standardizing type names.

@@ -1,30 +1,46 @@
+# import the main classes from the jsondb module. DB is the one
+# that deals with database actions. Model is the one interacts
+# with data.
 from jsondb import DB, Model
 
-# create a database object
+# Create an database object.
 jsondb = DB()
 
-# remove database if exist for testing
+# Delete the existing database if it exists.
 jsondb.delete(force=True)
 
-# create database under storage folder
+# Create the database.
 jsondb.init()
 
-# create type
-jsondb.create_type('user')
+# Create a type (table) named users
+jsondb.has_type('users')
 
 
-# create user model
+# Define a class for 'users' mapping.
 class User(Model):
-    __type__ = 'users'
+    __type__ = 'users'  # set the type to 'users'
 
 
+# Create a new user object (a new row).
 user = User()
+
+# Set the primary (primary key) to 'alex'.
 user.__primary__ = 'alex'
-user.email = 'alexwongsenhung@gmail.com'
+
+# Create an email field for 'alex'.
+user.email = '0x53656e@gmail.com'
+
+# Save the user model to database (a new row is been created).
 user.save()
 
-print user.attributes()
-user.email = 'something else'
+# See user's attributes.
+print 'User attributes: ', user.attributes()
+
+# Change users' email to something else.
+user.email = 'other@gmail.com'
+
+# Save user model to database (the row is been updated).
 user.save()
 
-print user.info()
+# See all users' information.
+print 'User information: ', user.info()
