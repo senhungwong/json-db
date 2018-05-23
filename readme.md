@@ -8,10 +8,18 @@ A lightweight NoSQL document database storage mechanism using JSON as the storin
 
 ## How To Use
 
-An example is included in [general-usage.py](general-usage.py)
+Use the following command to see example demo, or go to `examples/*` to see the code.
 
 ```bash
-$ python general-usage.py
+$ python example <example>
+```
+
+```
+<example>:
+[database]   : To see database interactions
+[assign]     : To see how to insert rows and assign/update fields
+[relations]  : To see how to add relation to a data
+[multithread]: To see how to perform a multi thread task
 ```
 
 ### Details

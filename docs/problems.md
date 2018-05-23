@@ -191,7 +191,7 @@ Provide a hashed value in files which allows caching and avoiding reading old da
 
 <summary>Example</summary>
 
-[Multi Thread](../multi-thread.py)
+[Multi Thread](../examples/multi_thread.py)
 
 ```bash
 $ python multi-thread.py

@@ -1,0 +1,23 @@
+#!/usr/bin/python
+import sys
+
+if len(sys.argv) > 1:
+    if sys.argv[1] == 'database':  # database interactions
+        from examples import db
+    elif sys.argv[1] == 'assign':
+        from examples import assign_values
+    elif sys.argv[1] == 'relations':
+        from examples import relations
+    elif sys.argv[1] == 'multithread':
+        from examples import multi_thread
+
+else:
+    print "Use the following command to see example demo, or go to examples/* to see the code.\n" \
+          "\n" \
+          "python example <example>\n" \
+          "\n" \
+          "<example>:\n" \
+          "[database]   : To see database interactions\n" \
+          "[assign]     : To see how to insert rows and assign/update fields\n" \
+          "[relations]  : To see how to add relation to a data\n" \
+          "[multithread]: To see how to perform a multi thread task\n"

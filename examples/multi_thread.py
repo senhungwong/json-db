@@ -1,25 +1,5 @@
-# import the main classes from the jsondb module. DB is the one
-# that deals with database actions. Model is the one interacts
-# with data.
-from jsondb import DB, Model
-
-# Create an database object.
-jsondb = DB()
-
-# Delete the existing database if it exists.
-jsondb.delete(force=True)
-
-# Create the database.
-jsondb.init()
-
-# Create a type (table) named users
-jsondb.has_type('users')
-
-
-# Define a class for 'users' mapping.
-class User(Model):
-    __type__ = 'users'  # set the type to 'users'
-
+import db
+from User import User
 
 # Create an user in thread 1.
 user_t1 = User()
