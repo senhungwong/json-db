@@ -1,4 +1,4 @@
-# JSONDB
+<p align="center"><img src="https://github.com/senhungwong/json-db/blob/master/docs/header.gif" width="55%"></p>
 
 ## Description
 
