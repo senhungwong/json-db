@@ -134,3 +134,44 @@ class Type(object):
             ], 'information.json'),
             info
         )
+
+    def get_relations(self):
+        """Get all relation types' identifier.
+
+        Returns:
+            dict: All relation types' identifiers.
+        """
+
+        return self.db.read(
+            build_path([
+                'schema', self.identifier
+            ], 'relations.json')
+        )
+
+    def insert_relation(self, relation, type):
+        """Create a new relation for current type.
+
+        ValueError will be raised if the relation already exists.
+
+        Args:
+            relation (str): The relation name.
+            type     (str): Related type name.
+        """
+
+        # get all relations
+        relations = self.get_relations()
+
+        # check if relation exists
+        if relation in relations:
+            raise ValueError  # the relation is already declared in relations.json
+
+        # insert relation
+        relations[relation] = self.db.read(build_path(['schema'], 'identifiers.json'))[type]
+
+        # save to database
+        self.db.write(
+            build_path([
+                'schema', self.identifier
+            ], 'relations.json'),
+            relations
+        )

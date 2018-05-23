@@ -47,3 +47,20 @@ print 'Changed attributes: ', user.attributes()
 
 # See all users' information.
 print 'User information: ', user.info()
+
+# Create country type.
+jsondb.has_type('countries')
+
+
+# Define a class for 'countries' mapping.
+class Country(Model):
+    __type__ = 'countries'
+
+
+# Create a country
+country = Country()
+country.__primary__ = 'Canada'
+country.save()
+
+# Create a relation in user.
+user.has_relation('visited_countries', 'countries')

@@ -113,3 +113,13 @@ class Model(object):
             else:
                 db_data.update(self.__dict__)
                 self.__dict__ = db_data
+
+    def has_relation(self, relation, type):
+        """Create a relation for current type.
+
+        Args:
+            relation (str): The relation name.
+            type     (str): Related type name.
+        """
+
+        self.__type__.insert_relation(relation, type)
