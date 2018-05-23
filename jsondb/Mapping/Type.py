@@ -148,10 +148,11 @@ class Type(object):
             ], 'relations.json')
         )
 
-    def insert_relation(self, relation, type):
+    def insert_relation(self, relation, type, primary):
         """Create a new relation for current type.
 
-        ValueError will be raised if the relation already exists.
+        ValueError will be raised if the relation already exists or relation name
+        occupied by other attributes.
 
         Args:
             relation (str): The relation name.
@@ -168,10 +169,28 @@ class Type(object):
         # insert relation
         relations[relation] = self.db.read(build_path(['schema'], 'identifiers.json'))[type]
 
-        # save to database
+        # fetch type data
+        data = self.get_data(primary)
+
+        # check if relation name occupied
+        if relation in data:
+            raise ValueError  # the relation is already declared in primary.json
+
+        # assign data relation with an empty column
+        data[relation] = []
+
+        # save schema to database
         self.db.write(
             build_path([
                 'schema', self.identifier
             ], 'relations.json'),
             relations
+        )
+
+        # save data to database
+        self.db.write(
+            build_path([
+                'data', self.name
+            ], primary + '.json'),
+            data
         )

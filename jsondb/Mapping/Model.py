@@ -122,4 +122,5 @@ class Model(object):
             type     (str): Related type name.
         """
 
-        self.__type__.insert_relation(relation, type)
+        self.__type__.insert_relation(relation, type, self.__primary__)
+        self.__dict__.update({relation: []})

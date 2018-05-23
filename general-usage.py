@@ -64,3 +64,8 @@ country.save()
 
 # Create a relation in user.
 user.has_relation('visited_countries', 'countries')
+
+# Assign a country to user.
+user.visited_countries.append(country.__primary__)
+user.save()
+print "User visited countries: ", user.visited_countries
