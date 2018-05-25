@@ -17,7 +17,7 @@ $ python example <example>
 ```
 <example>:
 [database]   : To see database interactions
-[assign]     : To see how to insert rows and assign/update fields
+[model]      : To see how to insert rows and assign/update fields
 [relations]  : To see how to add relation to a data
 [multithread]: To see how to perform a multi thread task
 ```

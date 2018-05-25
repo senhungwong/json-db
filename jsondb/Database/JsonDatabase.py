@@ -176,6 +176,8 @@ class JsonDatabase(object):
             ignore_errors=force
         )
 
+        print "Database %s is deleted." % self.database_name
+
     def get_hash(self, path):
         """Get the hash value.
 

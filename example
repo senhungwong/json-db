@@ -3,13 +3,17 @@ import sys
 
 if len(sys.argv) > 1:
     if sys.argv[1] == 'database':  # database interactions
-        from examples import db
-    elif sys.argv[1] == 'assign':
-        from examples import assign_values
+        from examples.db import db_guide
+        db_guide()
+    elif sys.argv[1] == 'model':
+        from examples.model import model_guide
+        model_guide()
     elif sys.argv[1] == 'relations':
-        from examples import relations
+        from examples.relations import relation_guide
+        relation_guide()
     elif sys.argv[1] == 'multithread':
-        from examples import multi_thread
+        from examples.multi_thread import multithread_guide
+        multithread_guide()
 
 else:
     print "Use the following command to see example demo, or go to examples/* to see the code.\n" \
@@ -18,6 +22,6 @@ else:
           "\n" \
           "<example>:\n" \
           "[database]   : To see database interactions\n" \
-          "[assign]     : To see how to insert rows and assign/update fields\n" \
+          "[model]      : To see how to insert rows and assign/update fields\n" \
           "[relations]  : To see how to add relation to a data\n" \
           "[multithread]: To see how to perform a multi thread task\n"
