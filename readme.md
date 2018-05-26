@@ -31,30 +31,19 @@ $ python example <example>
 ```
 v1.0.0 file structure
 
-storage/
+storage/                            # root folder of all databases
 └── database/
     ├── data/
-    │   ├── types-1/
-    │   │   ├── primary-1.json
-    │   │   └── primary-2.json
-    │   └── types-2/
-    │       ├── primary-1.json
-    │       └── primary-2.json
+    │   └── types/                  # a type (table)
+    │       └── primary.json        # a record named using the primary key
     ├── schema/
-    │   ├── identifiers.json
-    │   ├── types-1-identifier/
-    │   │   ├── information.json
-    │   │   └── relations.json
-    │   └── types-2-identifier/
-    │       ├── information.json
-    │       └── relations.json
+    │   ├── identifiers.json        # stores all type name + type identifiers
+    │   └── types-identifier/
+    │       ├── information.json    # the type (table) information
+    │       └── relations.json      # type relations with other types
     └── indices/
-        ├── types-1-identifier/
-        │   ├── attribute-1.json
-        │   └── attribute-2.json
-        └── types-2-identifier/
-            ├── attribute-1.json
-            └── attribute-2.json
+        └── types-identifier/
+            └── attribute.json      # indexing file for a type attribute
 ```
 
 ## Problems
