@@ -5,6 +5,7 @@
  - [Type name changing affecting relations](#type-name-changing-affecting-relations)
  - [Write overhead when table grows](#write-overhead-when-table-grows)
  - [Multi thread supporting](#multi-thread-supporting)
+ - [Attribute lookup and range search](#attribute-lookup-and-range-search)
 
 **Unsolved**
 
@@ -207,5 +208,77 @@ $ python multi-thread.py
 When read, check `__hash__`. If it changed, re-fetch file.
 When write, re-calculate `__hash__`.
 All `.json` file requires a `__hash__` property.
+
+</details>
+
+## Attribute lookup and range search
+
+<h3>Problem:</h3>
+
+Lookup an attribute value and range search is poorly performed since it needs to check all data files and compares.
+
+<details>
+
+<summary>Example</summary>
+
+To find user who has email `0x53656e@gmail.com` requires lookup through all users files and find email that has 
+value `0x53656e@gmail.com`.
+
+To find user whose age is larger than `20` requires lookup ages in all users files and compares the ages.
+
+Performing the action once is not hard. But if the same lookup is used multiple times, it is a waste of file reading. 
+Also when data grows, one lookup will spend a lot of time.
+
+</details>
+
+<h3>Solution:</h3>
+
+Index all frequently used attributes.
+
+<details>
+
+<summary>Example</summary>
+
+Fast look up and fast (sort of) range search.
+
+```
+storage/
+└── database/
+    └── indices/
+        ├── types-1-identifier/
+        │   ├── index.json
+        │   ├── attribute-1.json
+        │   └── attribute-2.json
+        └── types-2-identifier/
+            ├── index.json
+            ├── attribute-1.json
+            └── attribute-2.json
+```
+
+`indices/type-identifier/attribute.json`
+
+```json
+{
+    "value": ["primary"]
+}
+```
+
+Fast lookup:
+
+```python
+# fast since dict look up takes small amount of time
+Types.where("attribute", "=", "value")
+
+# fast since json file is sorted 
+Types.where("attribute", ">", "value")
+```
+
+`index.json` needs to store attributes that is been indexed
+
+```json
+{
+    "attribute": "hash"
+}
+```
 
 </details>

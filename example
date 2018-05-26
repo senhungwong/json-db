@@ -11,6 +11,9 @@ if len(sys.argv) > 1:
     elif sys.argv[1] == 'relations':
         from examples.relations import relation_guide
         relation_guide()
+    elif sys.argv[1] == 'index':
+        from examples.index import index_guide
+        index_guide()
     elif sys.argv[1] == 'multithread':
         from examples.multi_thread import multithread_guide
         multithread_guide()
@@ -24,4 +27,5 @@ else:
           "[database]   : To see database interactions\n" \
           "[model]      : To see how to insert rows and assign/update fields\n" \
           "[relations]  : To see how to add relation to a data\n" \
+          "[index]      : To see how to index an attribute\n" \
           "[multithread]: To see how to perform a multi thread task\n"

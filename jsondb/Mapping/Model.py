@@ -169,3 +169,16 @@ class Model(object):
             relations[target_primary] = self.__type__.get_target_data(target_type, target_primary)
 
         return relations
+
+    def index(self, attribute):
+        """Create an index of an attribute.
+
+        Args:
+            attribute (str): Attribute that is going to be indexed.
+        """
+        # check if attribute exists
+        if self.attributes()[attribute] is None:
+            raise ValueError  # attribute does not exist
+
+        # index attribute
+        self.__type__.create_index(attribute)

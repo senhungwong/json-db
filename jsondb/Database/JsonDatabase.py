@@ -85,6 +85,7 @@ class JsonDatabase(object):
             │       └── relations.json
             └── indices/
                 └── types-identifier/
+                    ├── index.json
                     └── attribute.json
 
         Args:
@@ -129,6 +130,17 @@ class JsonDatabase(object):
         content = self.file_manager.read(identifiers_path)
         content[type_name] = identifier
         self.file_manager.write(identifiers_path, content)
+
+        # build index path
+        index_path = build_path([self.database_name, 'indices', identifier])
+
+        # create database/indices/identifier folder
+        self.file_manager.create_directory(index_path, check_dir=False)
+
+        # create database/indices/identifier/index.json
+        self.file_manager.create_json_file(
+            'index', index_path, {}
+        )
 
         print "Type %s created successfully." % type_name
 

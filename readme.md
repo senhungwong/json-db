@@ -19,6 +19,7 @@ $ python example <example>
 [database]   : To see database interactions
 [model]      : To see how to insert rows and assign/update fields
 [relations]  : To see how to add relation to a data
+[index]      : To see how to index an attribute
 [multithread]: To see how to perform a multi thread task
 ```
 
@@ -43,6 +44,7 @@ storage/                            # root folder of all databases
     │       └── relations.json      # type relations with other types
     └── indices/
         └── types-identifier/
+            ├── index.json
             └── attribute.json      # indexing file for a type attribute
 ```
 

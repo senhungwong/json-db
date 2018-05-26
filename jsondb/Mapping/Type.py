@@ -238,3 +238,48 @@ class Type(object):
                 'data', target_type
             ], target_primary + '.json')
         )
+
+    def get_indices(self):
+        """Get self indices.
+
+        Returns:
+            dict: Indices and its hashes.
+        """
+
+        return self.db.read(
+            build_path([
+                'indices', self.identifier
+            ], 'index.json')
+        )
+
+    def create_index(self, attribute):
+        """Create an index of an attribute.
+
+        Args:
+            attribute (str): An attribute that is going to be indexed.
+        """
+
+        attribute_index = {}
+
+        # loop through all data
+        for primary in self.get_info()['data'].keys():
+            # get required attribute value
+            data = self.get_data(primary)[attribute]
+
+            # check if already have the value
+            if data not in attribute_index:
+                attribute_index[data] = [primary]
+            else:
+                attribute_index[data].append(primary)
+
+        # create attribute file
+        self.db.create(
+            attribute,
+            build_path(['indices', self.identifier]),
+            attribute_index
+        )
+
+        # update index file
+        indices = self.get_indices()
+        indices[attribute] = hash(str(attribute_index))
+        self.db.write(build_path(['indices', self.identifier], 'index.json'), indices)
