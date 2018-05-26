@@ -268,9 +268,9 @@ class Type(object):
 
             # check if already have the value
             if data not in attribute_index:
-                attribute_index[data] = [primary]
+                attribute_index[data] = {primary: None}
             else:
-                attribute_index[data].append(primary)
+                attribute_index[data][primary] = None
 
         # create attribute file
         self.db.create(
@@ -283,3 +283,83 @@ class Type(object):
         indices = self.get_indices()
         indices[attribute] = hash(str(attribute_index))
         self.db.write(build_path(['indices', self.identifier], 'index.json'), indices)
+
+    def is_indexed(self, attribute):
+        """Check if an attribute is indexed.
+
+        Args:
+            attribute (str): Attribute name.
+
+        Returns:
+            bool: The attribute is indexed or not.
+        """
+
+        return attribute in self.get_indices()
+
+    def lookup(self, attribute):
+        """See attribute indices.
+
+        Args:
+            attribute (str): Attribute name.
+
+        Returns:
+            dict: Attribute indices.
+        """
+
+        return self.db.read(
+            build_path([
+                'indices', self.identifier
+            ], attribute + '.json')
+        )
+
+    def update_index(self, attribute, value, primary):
+        """Update an index.
+
+        Args:
+            attribute (str): Attribute name.
+            value     (str): Attribute value.
+            primary   (str): Attribute primary.
+        """
+
+        # get indices
+        index = self.lookup(attribute)
+
+        # add index
+        if value not in index:
+            index[value] = {}
+        index[value][primary] = None
+
+        # store
+        self.db.write(
+            build_path([
+                'indices', self.identifier
+            ], attribute + '.json'),
+            index
+        )
+
+    def remove_index(self, attribute, value, primary):
+        """Remove an attribute value in an index.
+
+        Args:
+            attribute (str): The attribute.
+            value     (str): The value.
+            primary   (str): The primary.
+        """
+
+        # get indices
+        index = self.lookup(attribute)
+
+        # remove index
+        del index[value][primary]
+
+        # remove value if it contains nothing
+        if not index[value]:
+            del index[value]
+
+        # store
+        self.db.write(
+            build_path([
+                'indices', self.identifier
+            ], attribute + '.json'),
+            index
+        )

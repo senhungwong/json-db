@@ -91,10 +91,12 @@ class Model(object):
         if not self.__primary__:
             raise NameError('Object __primary__ is not defined')
 
+        attributes = self.attributes()
+        old_attributes = self.__type__.get_data(self.__primary__) if self.__created__ else {}
+
         # create a new row in database
         if not self.__created__:
             self.__hash__ = hash(str(self.attributes()))
-            attributes = self.attributes()
             attributes.update({'__hash__': self.__hash__})
             self.__type__.create_data(self.__primary__, attributes)
             self.__type__.insert_row(self.__primary__)
@@ -104,9 +106,16 @@ class Model(object):
         else:
             self.sync(force=False)
             self.__hash__ = hash(str(self.attributes()))
-            attributes = self.attributes()
             attributes.update({'__hash__': self.__hash__})
             self.__type__.update_data(self.__primary__, attributes)
+
+        for attribute in self.__type__.get_indices().keys():
+            # check attribute been updated
+            if attribute in old_attributes and attributes[attribute] != old_attributes[attribute]:
+                self.__type__.remove_index(attribute, old_attributes[attribute], self.__primary__)
+
+            # update attribute
+            self.__type__.update_index(attribute, attributes[attribute], self.__primary__)
 
     def info(self):
         """Get current type information.
@@ -176,9 +185,22 @@ class Model(object):
         Args:
             attribute (str): Attribute that is going to be indexed.
         """
+
         # check if attribute exists
         if self.attributes()[attribute] is None:
             raise ValueError  # attribute does not exist
 
         # index attribute
         self.__type__.create_index(attribute)
+
+    def lookup(self, attribute):
+        """Look up a specific attribute's index.
+
+        Args:
+            attribute (str): The attribute name that is going to be looked up.
+
+        Returns:
+            dict: Indices of the attribute.
+        """
+
+        return self.__type__.lookup(attribute)

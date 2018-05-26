@@ -13,6 +13,20 @@ def index_guide(show_instruction=True):
     )
     model_guide(show_instruction=False)
 
+    # Create index.
+    guide(
+        'Create index.',
+        [
+            "user = User('alex')",
+            "user.index('email')",
+            "print 'User indices:', user.lookup('email')"
+        ],
+        show_instruction=show_instruction
+    )
+    user = User('alex')
+    user.index('email')
+    print 'User indices:', user.lookup('email')
+
     # Create more users.
     guide(
         'Create more users.',
@@ -20,7 +34,8 @@ def index_guide(show_instruction=True):
             'user = User()',
             "user.__primary__ = 'senhung'",
             "user.email = '0x53656e@gmail.com'",
-            'user.save()'
+            'user.save()',
+            "print 'User indices:', user.lookup('email')"
         ],
         show_instruction=show_instruction
     )
@@ -28,15 +43,18 @@ def index_guide(show_instruction=True):
     user.__primary__ = 'senhung'
     user.email = '0x53656e@gmail.com'
     user.save()
+    print 'User indices:', user.lookup('email')
 
-    # Create index.
+    # Update indexed attribute.
     guide(
-        'Create index.',
+        'Update indexed attribute.',
         [
-            "user = User('alex')",
-            "user.index('email')"
+            "user.email = 'other@gmail.com'",
+            'user.save()',
+            "print 'User indices:', user.lookup('email')"
         ],
         show_instruction=show_instruction
     )
-    user = User('alex')
-    user.index('email')
+    user.email = 'other@gmail.com'
+    user.save()
+    print 'User indices:', user.lookup('email')
