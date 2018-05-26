@@ -44,6 +44,16 @@ class Type(object):
             content
         )
 
+        # update updated_at
+        info = self.get_info()
+        info['data'][primary]['updated_at'] = time.time()
+        self.db.write(
+            build_path([
+                'schema', self.identifier
+            ], 'information.json'),
+            info
+        )
+
     def create_data(self, primary, content):
         """Create a data in database
 
