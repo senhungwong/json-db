@@ -403,7 +403,30 @@ class Type(object):
             # loop through all indexed attributes
             for val, attr in self.lookup(attribute).items():
                 # if satisfy given condition
-                if ops[operator](val, value):
+                if ops[operator](str(val), str(value)):
                     primaries += attr.keys()
 
+        return primaries
+
+    def non_indexed_find(self, attribute, value, operator='='):
+        primaries = []
+        ops = {
+            '>': op.gt,
+            '<': op.lt,
+            '>=': op.ge,
+            '<=': op.le,
+            '=': op.eq,
+        }
+
+        # loop through all data
+        for primary in self.get_info()['data'].keys():
+            # get data
+            data = self.get_data(primary)
+
+            # skip data that has no specified attribute
+            if attribute not in data:
+                continue
+
+            if ops[operator](data[attribute], value):
+                primaries.append(primary)
         return primaries

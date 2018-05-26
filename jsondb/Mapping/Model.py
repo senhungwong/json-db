@@ -110,6 +110,10 @@ class Model(object):
             self.__type__.update_data(self.__primary__, attributes)
 
         for attribute in self.__type__.get_indices().keys():
+            # pass if object does not have the attribute
+            if attribute not in attributes:
+                continue
+
             # check attribute been updated
             if attribute in old_attributes and attributes[attribute] != old_attributes[attribute]:
                 self.__type__.remove_index(attribute, old_attributes[attribute], self.__primary__)
@@ -214,13 +218,22 @@ class Model(object):
             list: The list of data that matches the search requirement.
         """
 
-        # if the attribute is indexed use indexed find
+        # if the attribute is indexed, use indexed find
         if self.__type__.is_indexed(attribute):
             primaries = self.__type__.indexed_find(attribute, value, operator=operator)
-        # attribute is not indexed
+        # if attribute is not indexed, use non indexed find
         else:
-            pass
+            primaries = self.__type__.non_indexed_find(attribute, value, operator=operator)
 
         # if does not require parse, return the list
         if not build:
             return primaries
+
+        # build data
+        data = []
+
+        # get all data in primaries
+        for primary in primaries:
+            data.append(self.__type__.get_data(primary))
+
+        return data
