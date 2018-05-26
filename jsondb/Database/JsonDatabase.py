@@ -3,6 +3,7 @@ from FileStructureManager import FileStructureManager
 from ..Services.path_builder import build_path
 from ..Services.identifier_generater import generate_identifier
 from ..Services.pluralization import get_singular_plural
+from ..Services.config import Config
 
 
 class JsonDatabase(object):
@@ -22,7 +23,7 @@ class JsonDatabase(object):
             section       (str): The section name of the configurations (the one wrapped in []).
         """
 
-        self.database_name = database_name
+        self.database_name = Config.get(section, database_name)
         self.file_manager = FileStructureManager(database=database_name, storage=storage, section=section)
 
     def init(self):

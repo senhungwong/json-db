@@ -5,14 +5,14 @@ from examples import guide
 
 
 def db_guide(show_instruction=True):
-    # Create an database object.
+    # Create a database object using example config.
     guide(
         'Create a database object.',
-        'jsondb = DB()',
+        "jsondb = DB(section='example')",
         start=True,
         show_instruction=show_instruction
     )
-    jsondb = DB()
+    jsondb = DB(section='example')
 
     # Delete the existing database if it exists for reusing scripts.
     guide(

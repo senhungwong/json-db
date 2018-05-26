@@ -26,7 +26,29 @@ class Model(object):
         """
 
         self.__primary__ = primary
-        self.__type__ = Type(self.__type__)
+
+        # parse type
+        type_dir, temp = [], ''
+        for char in self.__type__:
+            if char != '.':
+                temp += char
+            else:
+                type_dir.append(temp)
+                temp = ''
+        type_dir.append(temp)
+
+        # validate
+        type_length = len(type_dir)
+        if type_length != 4 and type_length != 1:
+            raise ValueError  # wrong type string
+
+        # build type
+        if type_length == 1:
+            self.__type__ = Type(self.__type__)
+        else:
+            self.__type__ = Type(section=type_dir[0], storage=type_dir[1], database_name=type_dir[2], name=type_dir[3])
+
+        # get identifier
         self.__identifier__ = self.__type__.identifier
 
         # create new object if primary is not given
