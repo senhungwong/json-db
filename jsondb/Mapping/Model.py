@@ -124,3 +124,26 @@ class Model(object):
 
         self.__type__.insert_relation(relation, type, self.__primary__)
         self.__dict__.update({relation: []})
+
+    def relations(self, relation):
+        """Get a specific relation data.
+
+        Args:
+            relation (str): The relation name of the relation.
+
+        Returns:
+            dict: Dict of relation data.
+        """
+
+        # get identifier
+        target_identifier = self.__type__.get_relations()[relation]
+
+        # get type
+        target_type = self.__type__.get_target_info(target_identifier)['type']
+
+        # build relations dict
+        relations = {}
+        for target_primary in getattr(self, relation):
+            relations[target_primary] = self.__type__.get_target_data(target_type, target_primary)
+
+        return relations

@@ -8,7 +8,7 @@ class Type(object):
     def __init__(self, name, database_name='database', storage='storage', section='jsondb'):
         self.name = name
         self.db = JsonDatabase(database_name=database_name, storage=storage, section=section)
-        self.identifier = self.get_identifier()
+        self.identifier = self.get_identifiers()[self.name]
 
     def __str__(self):
         return self.name
@@ -60,14 +60,14 @@ class Type(object):
             content
         )
 
-    def get_identifier(self):
-        """Get the identifier of current type.
+    def get_identifiers(self):
+        """Get the identifiers.
 
         Returns:
-            str: The identifier generated when create the type.
+            str: The identifiers generated when create the type.
         """
 
-        return self.db.read(build_path(['schema'], 'identifiers.json'))[self.name]
+        return self.db.read(build_path(['schema'], 'identifiers.json'))
 
     def get_hash(self, primary):
         """Get the hash value.
@@ -103,6 +103,22 @@ class Type(object):
         return self.db.read(
             build_path([
                 'schema', self.identifier
+            ], 'information.json')
+        )
+
+    def get_target_info(self, target_identifier):
+        """Get target type information.
+
+        Args:
+            target_identifier (str): The target type identifier.
+
+        Returns:
+            dict: Target type information.
+        """
+
+        return self.db.read(
+            build_path([
+                'schema', target_identifier
             ], 'information.json')
         )
 
@@ -157,6 +173,7 @@ class Type(object):
         Args:
             relation (str): The relation name.
             type     (str): Related type name.
+            primary  (str): The primary of the relation.
         """
 
         # get all relations
@@ -193,4 +210,21 @@ class Type(object):
                 'data', self.name
             ], primary + '.json'),
             data
+        )
+
+    def get_target_data(self, target_type, target_primary):
+        """Get target data.
+
+        Args:
+            target_type    (str): The target type.
+            target_primary (str): The target primary.
+
+        Returns:
+            dict: The target primary data.
+        """
+
+        return self.db.read(
+            build_path([
+                'data', target_type
+            ], target_primary + '.json')
         )

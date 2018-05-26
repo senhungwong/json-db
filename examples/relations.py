@@ -25,6 +25,7 @@ def relation_guide(show_instruction=True):
     )
     country = Country()
     country.__primary__ = 'Canada'
+    country.continent = 'North America'
     country.save()
 
     # Get user object created from model tutorial.
@@ -56,3 +57,19 @@ def relation_guide(show_instruction=True):
     user.visited_countries.append(country.__primary__)
     user.save()
     print "User visited countries: ", user.visited_countries
+
+    # Get all visited countries as a list.
+    guide(
+        'Get all visited countries as a list.',
+        'print "User visited countries as a list:", user.visited_countries',
+        show_instruction=show_instruction
+    )
+    print "User visited countries as a list:", user.visited_countries
+
+    # Get all visited countries data.
+    guide(
+        'Get all visited countries data.',
+        "print 'User visited countries data:', user.relations('visited_countries')",
+        show_instruction=show_instruction
+    )
+    print 'User visited countries data:', user.relations('visited_countries')
