@@ -19,14 +19,28 @@ def index_guide(show_instruction=True):
         [
             "user = User('alex')",
             "user.index('email')",
-            "print 'User indices:', user.lookup('email')"
+            "user.index('age')",
+            "print 'User email indices:', user.lookup('email')"
         ],
         show_instruction=show_instruction
     )
     user = User('alex')
     user.index('email')
+    user.index('age')
     if show_instruction:
-        print 'User indices:', user.lookup('email')
+        print 'User email indices:', user.lookup('email')
+
+    # Add age field for range search demo.
+    guide(
+        'Add age field for range search demo.',
+        [
+            'user.age = 20',
+            'user.save()'
+        ],
+        show_instruction=show_instruction
+    )
+    user.age = 20
+    user.save()
 
     # Create more users.
     guide(
@@ -35,17 +49,19 @@ def index_guide(show_instruction=True):
             'user = User()',
             "user.__primary__ = 'senhung'",
             "user.email = '0x53656e@gmail.com'",
+            'user.age = 21',
             'user.save()',
-            "print 'User indices:', user.lookup('email')"
+            "print 'User email indices:', user.lookup('email')"
         ],
         show_instruction=show_instruction
     )
     user = User()
     user.__primary__ = 'senhung'
     user.email = '0x53656e@gmail.com'
+    user.age = 21
     user.save()
     if show_instruction:
-        print 'User indices:', user.lookup('email')
+        print 'User email indices:', user.lookup('email')
 
     # Update indexed attribute.
     guide(
@@ -53,11 +69,24 @@ def index_guide(show_instruction=True):
         [
             "user.email = 'other@gmail.com'",
             'user.save()',
-            "print 'User indices:', user.lookup('email')"
+            "print 'User email indices:', user.lookup('email')"
         ],
         show_instruction=show_instruction
     )
     user.email = 'other@gmail.com'
     user.save()
     if show_instruction:
-        print 'User indices:', user.lookup('email')
+        print 'User email indices:', user.lookup('email')
+
+    # Find list of users who has email 'other@gmail.com'.
+    guide(
+        "Find list of users who has email 'other@gmail.com'.",
+        [
+            "print 'Using lookup method:', user.lookup('email')['other@gmail.com'].keys()",
+            "print 'Using find method:', user.find('email', 'other@gmail.com', build=False)"
+        ],
+        show_instruction=show_instruction
+    )
+    if show_instruction:
+        print 'Using lookup method:', user.lookup('email')['other@gmail.com'].keys()
+        print 'Using find method:', user.find('email', 'other@gmail.com', build=False)

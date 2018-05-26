@@ -186,10 +186,6 @@ class Model(object):
             attribute (str): Attribute that is going to be indexed.
         """
 
-        # check if attribute exists
-        if self.attributes()[attribute] is None:
-            raise ValueError  # attribute does not exist
-
         # index attribute
         self.__type__.create_index(attribute)
 
@@ -204,3 +200,27 @@ class Model(object):
         """
 
         return self.__type__.lookup(attribute)
+
+    def find(self, attribute, value, operator='=', build=True):
+        """Look up and range search a value.
+
+        Args:
+            attribute (str) : The attribute name.
+            value     (str) : The value that is going to be compared with.
+            operator  (str) : The binary comparison operator.
+            build     (bool): If result needs to be built or not.
+
+        Returns:
+            list: The list of data that matches the search requirement.
+        """
+
+        # if the attribute is indexed use indexed find
+        if self.__type__.is_indexed(attribute):
+            primaries = self.__type__.indexed_find(attribute, value, operator=operator)
+        # attribute is not indexed
+        else:
+            pass
+
+        # if does not require parse, return the list
+        if not build:
+            return primaries

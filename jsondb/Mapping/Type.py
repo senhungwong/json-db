@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from ..Database.JsonDatabase import JsonDatabase
 from ..Services.path_builder import build_path
+import operator as op
 import time
 
 
@@ -263,14 +264,21 @@ class Type(object):
 
         # loop through all data
         for primary in self.get_info()['data'].keys():
+            # get data
+            data = self.get_data(primary)
+
+            # skip data that has no specified attribute
+            if attribute not in data:
+                continue
+
             # get required attribute value
-            data = self.get_data(primary)[attribute]
+            value = data[attribute]
 
             # check if already have the value
-            if data not in attribute_index:
-                attribute_index[data] = {primary: None}
+            if value not in attribute_index:
+                attribute_index[value] = {primary: None}
             else:
-                attribute_index[data][primary] = None
+                attribute_index[value][primary] = None
 
         # create attribute file
         self.db.create(
@@ -363,3 +371,39 @@ class Type(object):
             ], attribute + '.json'),
             index
         )
+
+    def indexed_find(self, attribute, value, operator='='):
+        """Indexed attribute lookup and find.
+
+        Args:
+            attribute (str) : The attribute name.
+            value     (str) : The value that is going to be compared with.
+            operator  (str) : The binary comparison operator.
+
+        Returns:
+            list: List of primaries that matches the condition.
+        """
+
+        primaries = []
+
+        # get data that has the same attribute value
+        if operator == '=':
+            primaries = self.lookup(attribute)[value].keys()
+
+        # range search
+        else:
+            # operators
+            ops = {
+                '>': op.gt,
+                '<': op.lt,
+                '>=': op.ge,
+                '<=': op.le,
+            }
+
+            # loop through all indexed attributes
+            for val, attr in self.lookup(attribute).items():
+                # if satisfy given condition
+                if ops[operator](val, value):
+                    primaries += attr.keys()
+
+        return primaries
