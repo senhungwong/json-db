@@ -51,7 +51,8 @@ def model_guide(show_instruction=True):
         "print 'User attributes: ', user.attributes()",
         show_instruction=show_instruction
     )
-    print 'User attributes: ', user.attributes()
+    if show_instruction:
+        print 'User attributes: ', user.attributes()
 
     # Change users' email to something else.
     guide(
@@ -75,7 +76,8 @@ def model_guide(show_instruction=True):
         "print 'Changed attributes: ', user.attributes()",
         show_instruction=show_instruction
     )
-    print 'Changed attributes: ', user.attributes()
+    if show_instruction:
+        print 'Changed attributes: ', user.attributes()
 
     # See all users' information.
     guide(
@@ -83,4 +85,5 @@ def model_guide(show_instruction=True):
         "print 'User information: ', user.info()",
         show_instruction=show_instruction
     )
-    print 'User information: ', user.info()
+    if show_instruction:
+        print 'User information: ', user.info()

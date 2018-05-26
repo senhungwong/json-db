@@ -56,7 +56,8 @@ def relation_guide(show_instruction=True):
     )
     user.visited_countries.append(country.__primary__)
     user.save()
-    print "User visited countries: ", user.visited_countries
+    if show_instruction:
+        print "User visited countries: ", user.visited_countries
 
     # Get all visited countries as a list.
     guide(
@@ -64,7 +65,8 @@ def relation_guide(show_instruction=True):
         'print "User visited countries as a list:", user.visited_countries',
         show_instruction=show_instruction
     )
-    print "User visited countries as a list:", user.visited_countries
+    if show_instruction:
+        print "User visited countries as a list:", user.visited_countries
 
     # Get all visited countries data.
     guide(
@@ -72,4 +74,5 @@ def relation_guide(show_instruction=True):
         "print 'User visited countries data:', user.relations('visited_countries')",
         show_instruction=show_instruction
     )
-    print 'User visited countries data:', user.relations('visited_countries')
+    if show_instruction:
+        print 'User visited countries data:', user.relations('visited_countries')

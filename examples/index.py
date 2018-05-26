@@ -25,7 +25,8 @@ def index_guide(show_instruction=True):
     )
     user = User('alex')
     user.index('email')
-    print 'User indices:', user.lookup('email')
+    if show_instruction:
+        print 'User indices:', user.lookup('email')
 
     # Create more users.
     guide(
@@ -43,7 +44,8 @@ def index_guide(show_instruction=True):
     user.__primary__ = 'senhung'
     user.email = '0x53656e@gmail.com'
     user.save()
-    print 'User indices:', user.lookup('email')
+    if show_instruction:
+        print 'User indices:', user.lookup('email')
 
     # Update indexed attribute.
     guide(
@@ -57,4 +59,5 @@ def index_guide(show_instruction=True):
     )
     user.email = 'other@gmail.com'
     user.save()
-    print 'User indices:', user.lookup('email')
+    if show_instruction:
+        print 'User indices:', user.lookup('email')

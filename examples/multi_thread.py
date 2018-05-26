@@ -29,7 +29,8 @@ def multithread_guide(show_instruction=True):
     user_t1.__primary__ = 'alex'
     user_t1.age = 20
     user_t1.save()
-    print "Thread 1 attributes: ", user_t1.attributes()
+    if show_instruction:
+        print "Thread 1 attributes: ", user_t1.attributes()
 
     # Get the user just created in thread 2.
     guide(
@@ -41,7 +42,8 @@ def multithread_guide(show_instruction=True):
         show_instruction=show_instruction
     )
     user_t2 = User('alex')
-    print "Thread 2 attributes: ", user_t2.attributes()
+    if show_instruction:
+        print "Thread 2 attributes: ", user_t2.attributes()
 
     # Update thread 1 user.
     guide(
@@ -55,7 +57,8 @@ def multithread_guide(show_instruction=True):
     )
     user_t1.age = 21
     user_t1.save()
-    print "Thread 1 updated attributes: ", user_t1.attributes()
+    if show_instruction:
+        print "Thread 1 updated attributes: ", user_t1.attributes()
 
     # Check thread 2 attributes.
     guide(
@@ -64,7 +67,8 @@ def multithread_guide(show_instruction=True):
         'print "Thread 2 current attributes: ", user_t2.attributes()',
         show_instruction=show_instruction
     )
-    print "Thread 2 current attributes: ", user_t2.attributes()
+    if show_instruction:
+        print "Thread 2 current attributes: ", user_t2.attributes()
 
     # Sync thread 2 manually.
     guide(
@@ -76,7 +80,8 @@ def multithread_guide(show_instruction=True):
         show_instruction=show_instruction
     )
     user_t2.sync()
-    print "Thread 2 attributes after sync: ", user_t2.attributes()
+    if show_instruction:
+        print "Thread 2 attributes after sync: ", user_t2.attributes()
 
     # Update thread 1 again.
     guide(
@@ -90,7 +95,8 @@ def multithread_guide(show_instruction=True):
     )
     user_t1.email = '0x53656e@gmail.com'
     user_t1.save()
-    print "Thread 1 attributes: ", user_t1.attributes()
+    if show_instruction:
+        print "Thread 1 attributes: ", user_t1.attributes()
 
     # Save action will sync before saving to database.
     guide(
@@ -103,7 +109,9 @@ def multithread_guide(show_instruction=True):
         ],
         show_instruction=show_instruction
     )
-    print "Thread 2 attributes before modify and save: ", user_t2.attributes()
+    if show_instruction:
+        print "Thread 2 attributes before modify and save: ", user_t2.attributes()
     user_t2.age = 50
     user_t2.save()
-    print "Thread 2 attributes after modify and save: ", user_t2.attributes()
+    if show_instruction:
+        print "Thread 2 attributes after modify and save: ", user_t2.attributes()
