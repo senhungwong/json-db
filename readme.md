@@ -26,6 +26,7 @@ $ python example <example>
 ### Details
 
  - [DB](docs/db.md)
+ - [Model](docs/model.md)
 
 ## Storage Structure
 
@@ -46,6 +47,65 @@ storage/                            # root folder of all databases
         └── types-identifier/
             ├── index.json
             └── attribute.json      # indexing file for a type attribute
+```
+
+## Features
+
+### Step by step tutorial
+
+![tutorial](docs/tutorial.gif)
+
+### Easy field modifying
+
+```python
+user = User('alex')
+user.email = '0x53656e@gmail.com'
+user.age = 21
+user.save()
+```
+
+see more
+
+```bash
+$ python example model
+```
+
+### Relations
+
+```python
+user.has_relation('visited_countries', 'countries')
+user.visited_countries.append('canada')
+user.save()
+```
+
+see more 
+
+```bash
+$ python example relations
+```
+
+### Indexing
+
+```python
+user.index('email')
+```
+
+see more 
+
+```bash
+$ python example index
+```
+
+### Multi thread supporting
+
+```python
+user.sync()
+```
+
+see more
+
+```bash
+$ python example multithread
 ```
 
 ## Problems
